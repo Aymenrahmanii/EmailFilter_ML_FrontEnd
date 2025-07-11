@@ -1,0 +1,141 @@
+<div class="min-h-screen gradient-bg flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-white rounded-xl shadow-2xl overflow-hidden">
+    <!-- Header -->
+    <div class="bg-indigo-700 py-6 px-8 text-white">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold">EmailClean</h1>
+          <p class="text-indigo-200">Sign up to start cleaning your inbox</p>
+        </div>
+        <div class="bg-white/20 p-3 rounded-lg">
+          <i class="fas fa-envelope text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form (ngSubmit)="register()" #registerForm="ngForm" class="p-8">
+      <!-- Name -->
+      <div class="mb-6">
+        <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Full Name</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-user text-gray-400"></i>
+          </div>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="user.name"
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+            placeholder="John Doe"
+            required
+            [class.border-red-500]="submitted && !user.name">
+        </div>
+        <p *ngIf="submitted && !user.name" class="text-red-500 text-xs mt-1">Please enter your full name</p>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-6">
+        <label for="email" class="block text-gray-700 text-sm font-medium mb-1">Email Address</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-envelope text-gray-400"></i>
+          </div>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="user.email"
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+            placeholder="example@email.com"
+            required
+            [class.border-red-500]="submitted && !user.email">
+        </div>
+        <p *ngIf="submitted && !user.email" class="text-red-500 text-xs mt-1">Please enter a valid email address</p>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-6">
+        <label for="password" class="block text-gray-700 text-sm font-medium mb-1">Password</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-lock text-gray-400"></i>
+          </div>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="user.password"
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+            placeholder="••••••••"
+            required
+            [class.border-red-500]="submitted && user.password.length < 8">
+          <button
+            type="button"
+            (click)="togglePasswordVisibility()"
+            class="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="mt-2">
+          <div class="flex space-x-1">
+            <div class="h-1 w-1/4 rounded-full"
+                 [class]="getPasswordStrengthClass(0)"></div>
+            <div class="h-1 w-1/4 rounded-full"
+                 [class]="getPasswordStrengthClass(1)"></div>
+            <div class="h-1 w-1/4 rounded-full"
+                 [class]="getPasswordStrengthClass(2)"></div>
+            <div class="h-1 w-1/4 rounded-full"
+                 [class]="getPasswordStrengthClass(3)"></div>
+          </div>
+        </div>
+        <p *ngIf="submitted && user.password.length < 8" class="text-red-500 text-xs mt-1">
+          Password must be at least 8 characters
+        </p>
+      </div>
+
+      <!-- Features List -->
+      <div class="mb-6 bg-gray-50 p-3 rounded-lg">
+        <p class="text-sm font-medium text-gray-700 mb-2">With EmailClean you get:</p>
+        <ul class="space-y-1 text-xs text-gray-600">
+          <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Spam-free inbox</li>
+          <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Automated organization</li>
+          <li class="fas fa-check-circle text-green-500 mr-2"> Daily email reports</li>
+          <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Priority email filtering</li>
+        </ul>
+      </div>
+
+      <!-- Terms Checkbox -->
+      <div class="mb-6">
+        <label class="flex items-center">
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            [(ngModel)]="termsAccepted"
+            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            required>
+          <span class="ml-2 text-sm text-gray-700">I agree to the <a href="#" class="text-indigo-600 hover:underline">Terms of Service</a> and <a href="#" class="text-indigo-600 hover:underline">Privacy Policy</a></span>
+        </label>
+        <p *ngIf="submitted && !termsAccepted" class="text-red-500 text-xs mt-1">You must accept our terms and conditions</p>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center"
+        [disabled]="isLoading">
+        <span>{{ isLoading ? 'Creating your account...' : 'Create Account' }}</span>
+        <i *ngIf="isLoading" class="fas fa-spinner fa-spin ml-2"></i>
+      </button>
+
+      <!-- Login Link -->
+      <div class="mt-4 text-center">
+        <p class="text-sm text-gray-600">Already have an account?
+          <a routerLink="/signin" class="text-indigo-600 font-medium hover:underline">Log in</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

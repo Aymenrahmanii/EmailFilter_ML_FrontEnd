@@ -1,0 +1,14 @@
+/* For modern browsers */
+::placeholder {
+  color: #95999f; /* This is Tailwind's gray-400 */
+  opacity: 1; /* Firefox reduces opacity by default */
+}
+
+/* For older browsers */
+:-ms-input-placeholder {
+  color: #9CA3AF;
+}
+
+::-ms-input-placeholder {
+  color: #9CA3AF;
+}

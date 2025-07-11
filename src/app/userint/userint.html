@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inbox Cleaner | Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4F46E5',
+            secondary: '#10B981',
+            dark: '#1F2937',
+            light: '#F9FAFB',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .sidebar-collapsed {
+      width: 80px;
+    }
+    .sidebar-collapsed .nav-text {
+      display: none;
+    }
+    .sidebar-collapsed .logo-text {
+      display: none;
+    }
+    .sidebar-collapsed .profile-info {
+      display: none;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    .progress-bar {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #E5E7EB;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    /* Custom scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #F1F5F9;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #D1D5DB;
+      border-radius: 20px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        z-index: 1000;
+        left: -100%;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .main-content {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar bg-white shadow-md flex flex-col h-full transition-all duration-300 overflow-y-auto custom-scrollbar">
+    <div class="flex items-center justify-between p-4 border-b">
+      <div class="flex items-center">
+        <div class="bg-primary p-2 rounded-lg">
+          <i class="fas fa-envelope text-white text-xl"></i>
+        </div>
+        <span class="logo-text ml-3 text-xl font-bold text-primary hidden md:block">InboxCleaner</span>
+      </div>
+      <button id="toggle-sidebar" class="text-gray-500 hover:text-gray-700 md:hidden">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="p-4 border-b">
+      <div class="flex items-center">
+        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="User" class="w-10 h-10 rounded-full">
+        <div class="profile-info ml-3 hidden md:block">
+          <div class="font-medium">Sarah Johnson</div>
+          <div class="text-sm text-gray-500">sarah&#64;example.com</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto">
+      <ul class="space-y-2 p-4">
+        <li>
+          <a href="#" class="flex items-center p-2 rounded-lg text-white bg-primary">
+            <i class="fas fa-home"></i>
+            <span class="nav-text ml-3 hidden md:block">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100 text-gray-700">
+            <i class="fas fa-inbox"></i>
+            <span class="nav-text ml-3 hidden md:block">Inbox</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/upload" href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100 text-gray-700">
+            <i class="fas fa-inbox"></i>
+            <span class="nav-text ml-3 hidden md:block">Upload</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100 text-gray-700">
+            <i class="fas fa-trash-alt"></i>
+            <span class="nav-text ml-3 hidden md:block">Trash</span>
+            <span class="ml-auto bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full hidden md:block">42</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100 text-gray-700">
+            <i class="fas fa-filter"></i>
+            <span class="nav-text ml-3 hidden md:block">Filters</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center p-2 rounded-lg hover:bg-gray-100 text-gray-700">
+            <i class="fas fa-cog"></i>
+            <span class="nav-text ml-3 hidden md:block">Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="p-4 border-t">
+      <button class="flex items-center w-full p-2 rounded-lg hover:bg-gray-100 text-gray-700">
+        <i class="fas fa-sign-out-alt"></i>
+        <span class="nav-text ml-3 hidden md:block">Logout</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content flex-1 flex flex-col overflow-hidden">
+    <!-- Header -->
+    <header class="bg-white shadow-sm p-4 flex items-center justify-between">
+      <button id="mobile-menu-toggle" class="text-gray-500 hover:text-gray-700 md:hidden">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <h1 class="text-xl font-bold text-gray-800">Email Dashboard</h1>
+
+      <div class="flex items-center space-x-4">
+        <button class="relative text-gray-500 hover:text-gray-700">
+          <i class="fas fa-bell"></i>
+          <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+        <button class="relative text-gray-500 hover:text-gray-700">
+          <i class="fas fa-question-circle"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="flex-1 overflow-y-auto p-4 custom-scrollbar">
+      <!-- Stats Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="text-gray-500">Total Emails</p>
+              <h3 class="text-2xl font-bold">5,287</h3>
+            </div>
+            <div class="bg-blue-100 p-3 rounded-full">
+              <i class="fas fa-envelope-open text-blue-500"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <div class="progress-bar">
+              <div class="progress-fill bg-blue-500" style="width: 65%"></div>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">65% processed</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="text-gray-500">Unread</p>
+              <h3 class="text-2xl font-bold">324</h3>
+            </div>
+            <div class="bg-red-100 p-3 rounded-full">
+              <i class="fas fa-inbox text-red-500"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <div class="progress-bar">
+              <div class="progress-fill bg-red-500" style="width: 15%"></div>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">15% of total</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="text-gray-500">Spam</p>
+              <h3 class="text-2xl font-bold">1,245</h3>
+            </div>
+            <div class="bg-yellow-100 p-3 rounded-full">
+              <i class="fas fa-ban text-yellow-500"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <div class="progress-bar">
+              <div class="progress-fill bg-yellow-500" style="width: 25%"></div>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">25% of total</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="text-gray-500">Clean Inbox</p>
+              <h3 class="text-2xl font-bold">3,718</h3>
+            </div>
+            <div class="bg-green-100 p-3 rounded-full">
+              <i class="fas fa-check text-green-500"></i>
+            </div>
+          </div>
+          <div class="mt-2">
+            <div class="progress-bar">
+              <div class="progress-fill bg-green-500" style="width: 70%"></div>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">70% cleaned</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <button class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center hover:bg-primary hover:text-white transition-all">
+            <i class="fas fa-trash-alt text-xl mb-2"></i>
+            <span class="text-sm">Clean Now</span>
+          </button>
+          <button class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center hover:bg-primary hover:text-white transition-all">
+            <i class="fas fa-filter text-xl mb-2"></i>
+            <span class="text-sm">Create Rule</span>
+          </button>
+          <button class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center hover:bg-primary hover:text-white transition-all">
+            <i class="fas fa-tasks text-xl mb-2"></i>
+            <span class="text-sm">Sort Messages</span>
+          </button>
+          <button class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center hover:bg-primary hover:text-white transition-all">
+            <i class="fas fa-history text-xl mb-2"></i>
+            <span class="text-sm">View Logs</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="bg-white rounded-lg shadow mb-6">
+        <div class="p-4 border-b">
+          <h2 class="text-lg font-semibold">Recent Activity</h2>
+        </div>
+        <div class="divide-y">
+          <div class="p-4 hover:bg-gray-50">
+            <div class="flex items-start">
+              <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                <i class="fas fa-trash text-blue-500"></i>
+              </div>
+              <div>
+                <p class="font-medium">Deleted 42 spam messages</p>
+                <p class="text-sm text-gray-500">2 minutes ago</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 hover:bg-gray-50">
+            <div class="flex items-start">
+              <div class="bg-green-100 p-2 rounded-lg mr-3">
+                <i class="fas fa-check text-green-500"></i>
+              </div>
+              <div>
+                <p class="font-medium">Organized 180 important emails</p>
+                <p class="text-sm text-gray-500">45 minutes ago</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 hover:bg-gray-50">
+            <div class="flex items-start">
+              <div class="bg-yellow-100 p-2 rounded-lg mr-3">
+                <i class="fas fa-exclamation text-yellow-500"></i>
+              </div>
+              <div>
+                <p class="font-medium">30 potential phishing emails detected</p>
+                <p class="text-sm text-gray-500">3 hours ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email Categories -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white rounded-lg shadow">
+          <div class="p-4 border-b">
+            <h2 class="text-lg font-semibold">Email Categories</h2>
+          </div>
+          <div class="p-4">
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium">Social Media</span>
+                  <span class="text-sm text-gray-500">1,052 (20%)</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-purple-500" style="width: 20%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium">Promotions</span>
+                  <span class="text-sm text-gray-500">1,894 (36%)</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-green-500" style="width: 36%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium">Updates</span>
+                  <span class="text-sm text-gray-500">875 (16%)</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-blue-500" style="width: 16%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium">Forums</span>
+                  <span class="text-sm text-gray-500">623 (12%)</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-red-500" style="width: 12%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium">Important</span>
+                  <span class="text-sm text-gray-500">843 (16%)</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-yellow-500" style="width: 16%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cleaning Schedule -->
+        <div class="bg-white rounded-lg shadow">
+          <div class="p-4 border-b">
+            <h2 class="text-lg font-semibold">Cleaning Schedule</h2>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <input type="checkbox" id="auto-clean" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" checked>
+                <label for="auto-clean" class="ml-2 block text-sm font-medium text-gray-700">Auto-clean inbox</label>
+              </div>
+              <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-lg">Active</span>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Frequency</label>
+                <select class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+                  <option>Every hour</option>
+                  <option selected>Every 6 hours</option>
+                  <option>Every 12 hours</option>
+                  <option>Every day</option>
+                  <option>Every week</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Next Cleaning</label>
+                <div class="border rounded-md p-3 text-sm">
+                  <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                  <span>Today at 4:30 PM</span>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Last Cleaning</label>
+                <div class="border rounded-md p-3 text-sm">
+                  <i class="fas fa-clock text-primary mr-2"></i>
+                  <span>
+                                            Today at 10:30 AM
+                                            <span class="text-green-500 ml-2">Cleaned 342 emails</span>
+                                        </span>
+                </div>
+              </div>
+            </div>
+
+            <button class="mt-6 w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-opacity-90 transition-opacity">
+              Run Manual Clean
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Mobile sidebar toggle
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+
+    mobileMenuToggle.addEventListener('click', function() {
+      sidebar.classList.add('active');
+    });
+
+    toggleSidebarBtn.addEventListener('click', function() {
+      sidebar.classList.remove('active');
+    });
+
+    // Desktop sidebar toggle
+    const desktopToggleBtn = document.getElementById('toggle-sidebar');
+
+    desktopToggleBtn.addEventListener('click', function() {
+      sidebar.classList.toggle('sidebar-collapsed');
+    });
+
+    // Mock progress animation for demonstration
+    setTimeout(() => {
+      document.querySelectorAll('.fade-in').forEach(el => {
+        el.classList.add('opacity-100');
+      });
+
+      const progressBars = document.querySelectorAll('.progress-fill');
+      progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => {
+          bar.style.width = width;
+        }, 100);
+      });
+    }, 300);
+
+    // Add smooth transitions when elements are loaded
+    document.querySelectorAll('.bg-white').forEach(el => {
+      el.classList.add('transition-all', 'duration-300');
+    });
+  });
+</script>
+</body>
+</html>

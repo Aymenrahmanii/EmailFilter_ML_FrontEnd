@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CleanMail | Professional Email Cleaning Service</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #6B73FF 0%, #000DFF 50%, #00D4FF 100%);
+    }
+    .file-drop-area {
+      border: 2px dashed #ccc;
+      transition: all 0.3s ease;
+    }
+    .file-drop-area.active {
+      border-color: #4F46E5;
+      background-color: rgba(79, 70, 229, 0.05);
+    }
+    .progress-bar {
+      transition: width 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .animate-bounce-slow {
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-gray-800">
+<!-- Navigation -->
+<nav class="bg-white shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <div class="flex-shrink-0 flex items-center">
+          <i class="fas fa-envelope-open-text text-indigo-600 text-2xl mr-2"></i>
+          <span class="text-xl font-bold text-indigo-600">CleanMail</span>
+        </div>
+        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+          <a href="#" class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Home</a>
+          <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Features</a>
+          <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Pricing</a>
+          <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">About</a>
+        </div>
+      </div>
+      <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
+        <a routerLink="/signin" class="bg-white hover:bg-gray-100 text-indigo-600 border border-indigo-600 px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+          Sign In
+        </a>
+        <a routerLink="/register" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+          Register
+        </a>
+      </div>
+      <div class="-mr-2 flex items-center sm:hidden">
+        <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="sm:hidden hidden" id="mobile-menu">
+    <div class="pt-2 pb-3 space-y-1">
+      <a href="#" class="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+      <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Features</a>
+      <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Pricing</a>
+      <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">About</a>
+      <div class="mt-4 pl-3 space-y-2">
+        <a routerLink="/signin" class="block bg-white hover:bg-gray-100 text-indigo-600 border border-indigo-600 px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out text-center">
+          Sign In
+        </a>
+        <a routerLink="/register" class="block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out text-center">
+          Register
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Rest of your HTML remains exactly the same -->
+<!-- Hero Section -->
+<div class="gradient-bg text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+      <div class="mb-12 lg:mb-0">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Clean, Organize & Secure Your Emails</h1>
+        <p class="text-xl mb-8 opacity-90">Remove duplicates, unsubscribe from spam, and organize your inbox with our powerful email cleaning tools.</p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button class="bg-white text-indigo-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-medium text-lg transition duration-150 ease-in-out shadow-lg">Start Cleaning Now</button>
+          <button class="bg-transparent border-2 border-white hover:bg-white hover:bg-opacity-10 px-6 py-3 rounded-lg font-medium text-lg transition duration-150 ease-in-out">Watch Demo</button>
+        </div>
+      </div>
+      <div class="relative">
+        <img src="https://images.unsplash.com/photo-1526554850534-7c78330d5f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Email organization" class="rounded-xl shadow-2xl">
+        <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg hidden md:block">
+          <div class="flex items-center">
+            <div class="bg-green-100 p-3 rounded-full mr-3">
+              <i class="fas fa-check-circle text-green-500 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">1M+ Emails Cleaned</p>
+              <p class="text-gray-600 text-sm">Trusted by thousands</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats Section -->
+<div class="bg-gray-50 py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="text-indigo-600 text-4xl font-bold mb-2">98%</div>
+        <div class="text-gray-600">Accuracy Rate</div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="text-indigo-600 text-4xl font-bold mb-2">10K+</div>
+        <div class="text-gray-600">Happy Customers</div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="text-indigo-600 text-4xl font-bold mb-2">5M+</div>
+        <div class="text-gray-600">Emails Processed</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Section -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl font-bold mb-4">How It Works</h2>
+    <p class="text-gray-600 max-w-2xl mx-auto">Upload your email list or connect your email account to start cleaning in minutes</p>
+  </div>
+
+  <div class="file-drop-area bg-white rounded-xl shadow-md p-8 mb-8 transition duration-150 ease-in-out" id="dropArea">
+    <div class="text-center">
+      <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 mb-4">
+        <i class="fas fa-cloud-upload-alt text-indigo-600 text-xl"></i>
+      </div>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">Drag & drop your email file here</h3>
+      <p class="text-gray-500 mb-4">Or</p>
+      <label for="fileInput" class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+        Select File
+        <input type="file" id="fileInput" class="hidden">
+      </label>
+      <p class="text-gray-500 text-xs mt-4">Supported formats: CSV, TXT, XLSX (Max 50MB)</p>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-md p-6 hidden" id="processingSection">
+    <div class="mb-4">
+      <div class="flex justify-between mb-1">
+        <span class="text-sm font-medium text-gray-700">Processing...</span>
+        <span class="text-sm font-medium text-gray-700" id="progressPercent">0%</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <div class="progress-bar bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+      </div>
+    </div>
+    <div class="flex items-center text-sm text-gray-500">
+      <i class="fas fa-info-circle mr-2"></i>
+      <span>This may take a few minutes depending on file size</span>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <p class="text-gray-600 mb-4">Prefer to connect directly?</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <button class="flex items-center bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+        <i class="fab fa-google text-red-500 mr-2"></i> Gmail
+      </button>
+      <button class="flex items-center bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+        <i class="fab fa-microsoft text-blue-500 mr-2"></i> Outlook
+      </button>
+      <button class="flex items-center bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+        <i class="fas fa-envelope text-gray-500 mr-2"></i> IMAP
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="bg-gray-50 py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4">Powerful Email Cleaning Features</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Everything you need to keep your inbox clean and organized</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="feature-card bg-white p-6 rounded-xl shadow-sm transition duration-150 ease-in-out">
+        <div class="bg-indigo-100 p-3 rounded-full inline-flex mb-4">
+          <i class="fas fa-trash-alt text-indigo-600 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Remove Duplicates</h3>
+        <p class="text-gray-600">Automatically identify and remove duplicate emails from your list to maintain a clean database.</p>
+      </div>
+
+      <div class="feature-card bg-white p-6 rounded-xl shadow-sm transition duration-150 ease-in-out">
+        <div class="bg-indigo-100 p-3 rounded-full inline-flex mb-4">
+          <i class="fas fa-user-slash text-indigo-600 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Spam Detection</h3>
+        <p class="text-gray-600">Advanced algorithms detect and flag potential spam emails to protect your inbox.</p>
+      </div>
+
+      <div class="feature-card bg-white p-6 rounded-xl shadow-sm transition duration-150 ease-in-out">
+        <div class="bg-indigo-100 p-3 rounded-full inline-flex mb-4">
+          <i class="fas fa-filter text-indigo-600 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Smart Filtering</h3>
+        <p class="text-gray-600">Organize your emails with custom filters and categories for better productivity.</p>
+      </div>
+
+      <div class="feature-card bg-white p-6 rounded-xl shadow-sm transition duration-150 ease-in-out">
+        <div class="bg-indigo-100 p-3 rounded-full inline-flex mb-4">
+          <i class="fas fa-shield-alt text-indigo-600 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Security Check</h3>
+        <p class="text-gray-600">Identify potentially harmful emails with malicious links or attachments.</p>
+      </div>
+
+      <div class="feature-card bg-white p-6 rounded-xl shadow-sm transition duration-150 ease-in-out">
+        <div class="bg-indigo-100 p-3 rounded-full inline-flex mb-4">
+          <i class="fas fa-chart-line text-indigo-600 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Analytics Dashboard</h3>
+        <p class="text-gray-600">Get insights into your email habits with detailed analytics and reports.</p>
+      </div>
+
+      <div class="feature-card bg-white p-6 rounded-xl shadow-sm transition duration-150 ease-in-out">
+        <div class="bg-indigo-100 p-3 rounded-full inline-flex mb-4">
+          <i class="fas fa-robot text-indigo-600 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">AI Suggestions</h3>
+        <p class="text-gray-600">Receive smart suggestions for organizing and prioritizing your emails.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<div class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4">What Our Customers Say</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Join thousands of satisfied users who transformed their email experience</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-gray-50 p-6 rounded-xl">
+        <div class="flex items-center mb-4">
+          <div class="flex-shrink-0">
+            <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/32.jpg" alt="">
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-gray-900">Sarah Johnson</p>
+            <div class="flex space-x-1 text-sm text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600 italic">"CleanMail saved me hours every week by automatically organizing my inbox. I went from 10,000 unread emails to zero in just a few days!"</p>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-xl">
+        <div class="flex items-center mb-4">
+          <div class="flex-shrink-0">
+            <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/42.jpg" alt="">
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-gray-900">Michael Chen</p>
+            <div class="flex space-x-1 text-sm text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600 italic">"The spam detection is incredibly accurate. I no longer worry about missing important emails because they got buried in junk."</p>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-xl">
+        <div class="flex items-center mb-4">
+          <div class="flex-shrink-0">
+            <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/68.jpg" alt="">
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-gray-900">Emily Rodriguez</p>
+            <div class="flex space-x-1 text-sm text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600 italic">"As a small business owner, keeping my email organized was a nightmare. CleanMail made it simple and saved me so much time."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="gradient-bg text-white py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl font-bold mb-6">Ready to Transform Your Email Experience?</h2>
+    <p class="text-xl mb-8 opacity-90">Join thousands of professionals who have taken control of their inboxes</p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <button class="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-medium text-lg transition duration-150 ease-in-out shadow-lg">Get Started for Free</button>
+      <button class="bg-transparent border-2 border-white hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-lg font-medium text-lg transition duration-150 ease-in-out">See Pricing Plans</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white pt-12 pb-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <h3 class="text-lg font-semibold mb-4">CleanMail</h3>
+        <p class="text-gray-400">The most powerful email cleaning and organization tool for professionals and businesses.</p>
+        <div class="flex space-x-4 mt-4">
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Product</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-400 hover:text-white">Features</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Pricing</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">API</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Integrations</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Resources</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-400 hover:text-white">Documentation</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Guides</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Company</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Privacy</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <p class="text-gray-400 text-center">&copy; 2023 CleanMail. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  document.querySelector('[aria-controls="mobile-menu"]').addEventListener('click', function() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+  });
+
+  // File upload functionality
+  const dropArea = document.getElementById('dropArea');
+  const fileInput = document.getElementById('fileInput');
+  const processingSection = document.getElementById('processingSection');
+  const progressPercent = document.getElementById('progressPercent');
+  const progressBar = document.querySelector('.progress-bar');
+
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropArea.addEventListener(eventName, highlight, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, unhighlight, false);
+  });
+
+  function highlight() {
+    dropArea.classList.add('active');
+  }
+
+  function unhighlight() {
+    dropArea.classList.remove('active');
+  }
+
+  dropArea.addEventListener('drop', handleDrop, false);
+  fileInput.addEventListener('change', handleFiles, false);
+
+  function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    handleFiles({target: {files}});
+  }
+
+  function handleFiles(e) {
+    const files = e.target.files;
+    if (files.length) {
+      // Show processing section
+      dropArea.classList.add('hidden');
+      processingSection.classList.remove('hidden');
+
+      // Simulate processing
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress > 100) progress = 100;
+
+        progressPercent.textContent = Math.round(progress) + '%';
+        progressBar.style.width = progress + '%';
+
+        if (progress === 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            alert('Your email file has been processed successfully!');
+          }, 500);
+        }
+      }, 300);
+    }
+  }
+
+  // Animate elements on scroll
+  const observerOptions = {
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-bounce-slow');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.feature-card').forEach(card => {
+    observer.observe(card);
+  });
+</script>
+</body>
+</html>
