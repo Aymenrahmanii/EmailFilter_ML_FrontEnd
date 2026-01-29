@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { EmailPredictionService } from '../services/email-prediction';
+import { HistoryService } from '../services/HistoryService';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EmailUploadResultDTO, EmailResult } from '../models/EmailUploadResultDTO';
 
 @Component({
   selector: 'app-upload',
@@ -12,13 +14,26 @@ import { FormsModule } from '@angular/forms';
 })
 export class Upload {
   selectedFile: File | null = null;
-  results: any[] = [];
-  validEmails: any[] = [];
-  riskyEmails: any[] = [];
-  bounceEmails: any[] = [];
+  results: EmailResult[] = [];
+  validEmails: EmailResult[] = [];
+  riskyEmails: EmailResult[] = [];
+  bounceEmails: EmailResult[] = [];
   errorMessage: string | null = null;
+  userId: string | null = null;
 
-  constructor(private emailService: EmailPredictionService) {}
+  constructor(
+    private emailService: EmailPredictionService,
+    private historyService: HistoryService
+  ) {}
+
+  ngOnInit(): void {
+    this.userId = localStorage.getItem('userId');
+    if (this.userId) {
+      console.log('✅ User ID retrieved:', this.userId);
+    } else {
+      console.warn('⚠️ No user ID in localStorage');
+    }
+  }
 
   onFileSelected(event: any) {
     const file = event.target?.files?.[0] || event.dataTransfer?.files?.[0];
@@ -52,15 +67,13 @@ export class Upload {
 
     this.emailService.predictCsv(this.selectedFile).subscribe({
       next: (response) => {
-        console.log('✅ API response received:', response);
-
         this.results = Array.isArray(response)
           ? response
           : response.result || [];
 
-        console.log('📊 Parsed results:', this.results);
-
         this.categorizeEmails();
+
+        this.sendToBackend();
       },
       error: (error) => {
         console.error('❌ API Error:', error);
@@ -73,11 +86,24 @@ export class Upload {
     this.validEmails = this.results.filter(e => e.prediction === 'valid');
     this.riskyEmails = this.results.filter(e => e.prediction === 'risky');
     this.bounceEmails = this.results.filter(e => e.prediction === 'bounce');
+  }
 
-    console.log('📂 Categories:', {
-      valid: this.validEmails.length,
-      risky: this.riskyEmails.length,
-      bounce: this.bounceEmails.length
+  private sendToBackend() {
+    if (!this.userId || !this.selectedFile) return;
+
+    const dto: EmailUploadResultDTO = {
+      userId: parseInt(this.userId),
+      filename: this.selectedFile.name,
+      results: this.results
+    };
+
+    this.historyService.saveResult(dto).subscribe({
+      next: () => {
+        console.log('✅ History saved to backend');
+      },
+      error: (err) => {
+        console.error('❌ Failed to save history:', err);
+      }
     });
   }
 

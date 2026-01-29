@@ -13,8 +13,11 @@ export class EmailPredictionService {
   predictCsv(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
+
     return this.http.post<any>('http://localhost:5000/predict_csv', formData); // ✅ must return
   }
-
+  getHistory(): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8081/api/history`);
+  }
 
 }

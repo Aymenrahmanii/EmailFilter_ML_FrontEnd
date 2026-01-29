@@ -4,6 +4,12 @@ import { LoginRequest } from '../models/LoginRequest';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+export interface LoginResponse {
+  userId: number;
+  email: string;
+  name?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +18,9 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(request: LoginRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, request, { responseType: 'text' }).pipe(
+  login(request: LoginRequest): Observable<LoginResponse> {
+    // Removed responseType: 'text' so HttpClient expects JSON by default
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, request).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error);
       })

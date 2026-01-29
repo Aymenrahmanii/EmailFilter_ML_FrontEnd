@@ -1,0 +1,25 @@
+@if (emailData && emailData.emails) {
+  <div>
+    <h2>{{ emailData.filename }}</h2>
+    <table border="1">
+      <thead>
+      <tr>
+        <th>Email</th>
+        <th>Prediction</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (r of emailData.emails; track r.email) {
+          <tr>
+            <td>{{ r.email }}</td>
+            <td>{{ r.prediction }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else {
+  <div>
+    <p>Loading email details...</p>
+  </div>
+}

@@ -57,19 +57,12 @@ export class signin implements OnInit {
 
     this.authService.login(this.loginRequest).subscribe({
       next: (response) => {
-        this.isLoading = false;
-
-        // Handle successful login
-        if (this.rememberMe) {
-          localStorage.setItem('rememberedEmail', this.loginRequest.email);
-        } else {
-          localStorage.removeItem('rememberedEmail');
+        // Store user info in localStorage or a service
+        localStorage.setItem('userId', response.userId.toString());
+        localStorage.setItem('userEmail', response.email);
+        if (response.name) {
+          localStorage.setItem('userName', response.name);
         }
-
-        // Store the token (assuming response is the token since responseType is 'text')
-        localStorage.setItem('authToken', response);
-
-        // Navigate to dashboard or home
         this.router.navigate(['/userint']);
       },
       error: (error) => {
